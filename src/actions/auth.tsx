@@ -2,7 +2,7 @@
 
 import { SignupFormSchema, FormState } from '../lib/definitions'
 import { PrismaClient } from '@prisma/client'
-// import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -23,8 +23,8 @@ export async function signup(state: FormState, formData: FormData) {
   }
  
   // 2. Prepare data for insertion into database
-  const { email } = validatedFields.data
-  // const hashedPassword = await bcrypt.hash(password, 10)
+  const { email, password } = validatedFields.data
+  const hashedPassword = await bcrypt.hash(password, 10)
  
   // 3. Insert the user into the database or call an Auth Library's API
   const existingUser = await prisma.user.findUnique({
@@ -42,7 +42,8 @@ export async function signup(state: FormState, formData: FormData) {
   const user = await prisma.user.create({
     data: {
       email,
-      name: email.split('@')[0]
+      name: email.split('@')[0],
+      password: hashedPassword
     }
   })
   console.log(user)
