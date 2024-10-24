@@ -1,8 +1,10 @@
 "use server";
 
-import { SignupFormSchema, FormState } from '../lib/definitions'
+import { redirect } from 'next/navigation'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
+import { SignupFormSchema, FormState } from '../lib/definitions'
+import { createSession, deleteSession } from '../lib/session'
 
 const prisma = new PrismaClient()
 
@@ -12,7 +14,6 @@ export async function signup(state: FormState, formData: FormData) {
     email: formData.get('email'),
     password: formData.get('password'),
   })
-  console.log(formData)
  
   // If any form fields are invalid, return early
   if (!validatedFields.success) {
@@ -46,13 +47,18 @@ export async function signup(state: FormState, formData: FormData) {
       password: hashedPassword
     }
   })
-  console.log(user)
   if (!user) {
     return {
       message: 'There was a problem creating your user',
     }
   }
-  return {
-    message: 'All good',
-  }
+
+  await createSession(`${user.id}`)
+
+  redirect('/profile')
+}
+
+export async function logout() {
+  deleteSession()
+  redirect('/login')
 }
