@@ -18,6 +18,7 @@ model User {
   createdAt        DateTime         @default(now())
   name             String
   email            String           @unique
+  password         String
   friends          User[]           @relation("UserFriends")
   friendOf         User[]           @relation("UserFriends")
   readings         Book[]
