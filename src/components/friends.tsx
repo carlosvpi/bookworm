@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Button } from '../components/button'
 
 export function Friends({ users, currentUser }: { users: { id: number, name: string }[], currentUser: { id: number, friends: number[]}}) {
   const [friends, setFriends] = useState<number[]>(currentUser.friends);
@@ -31,8 +32,8 @@ export function Friends({ users, currentUser }: { users: { id: number, name: str
       <Link href={`users/{friend.id}`}>{user.name ?? 'No name'}</Link>
       {
         isFriend
-          ? <button onClick={() => removeFriend(currentUser.id, user.id)}>Unfriend</button>
-          : <button onClick={() => addFriend(currentUser.id, user.id)}>Befriend</button>
+          ? <Button bg='gray-500' onClick={() => removeFriend(currentUser.id, user.id)}>Unfriend</Button>
+          : <Button bg='gray-500' onClick={() => addFriend(currentUser.id, user.id)}>Befriend</Button>
       }
     </li>
   })}

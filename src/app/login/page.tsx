@@ -3,6 +3,7 @@
 import { useFormStatus } from 'react-dom'
 import { useActionState } from 'react'
 import { login } from '../../actions/auth'
+import { Button } from '../../components/button'
 
 export default function Login() {
   const [loginState, loginAction] = useActionState(login, undefined)
@@ -37,8 +38,6 @@ function SubmitButton() {
   const { pending } = useFormStatus()
  
   return (
-    <button className='w-full mx-1 bg-white/25 hover:bg-white/75 p-2 rounded shadow-md' disabled={pending} type="submit">
-      Log in
-    </button>
+    <Button type="submit" tw='w-full' disabled={pending}>Log in</Button>
   )
 }
