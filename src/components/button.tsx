@@ -1,5 +1,10 @@
 import { ReactElement, ReactNode } from "react";
 
+const bgHash = {
+  white: 'bg-white/25 hover:bg-white/75',
+  gray: 'bg-gray-500/25 hover:bg-gray-500/75'
+}
+
 export function Button ({
   children,
   bg = 'white',
@@ -9,14 +14,15 @@ export function Button ({
   type
 }: {
   children: ReactNode,
-  bg?: 'white' | 'gray-500',
+  bg?: 'white' | 'gray',
   onClick?: React.MouseEventHandler,
   tw?: string,
   disabled?: boolean
   type?: "submit" | "reset" | "button" | undefined
 }) {
+  
   return <button
-    className={`mx-1 bg-${bg}/25 hover:bg-${bg}/75 p-2 rounded shadow-md ${tw}`}
+    className={`mx-1 ${bgHash[bg]} p-2 rounded shadow-md ${tw}`}
     disabled={disabled}
     onClick={onClick}
     type={type}

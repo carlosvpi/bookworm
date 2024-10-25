@@ -32,8 +32,8 @@ export function Friends({ users, currentUser }: { users: { id: number, name: str
       <Link href={`users/{friend.id}`}>{user.name ?? 'No name'}</Link>
       {
         isFriend
-          ? <Button bg='gray-500' onClick={() => removeFriend(currentUser.id, user.id)}>Unfriend</Button>
-          : <Button bg='gray-500' onClick={() => addFriend(currentUser.id, user.id)}>Befriend</Button>
+          ? <Button bg='gray' onClick={() => removeFriend(currentUser.id, user.id)}>Unfriend</Button>
+          : <Button bg='gray' onClick={() => addFriend(currentUser.id, user.id)}>Befriend</Button>
       }
     </li>
   })}
