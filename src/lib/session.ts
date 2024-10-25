@@ -44,16 +44,14 @@ export async function createSession(id: string) {
 
 export async function updateSession() {
   const session = (await cookies()).get('session')?.value
+  if (!session) return null
+
   const payload = await decrypt(session)
- 
-  if (!session || !payload) {
-    return null
-  }
+  if (!payload) return null
  
   const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
  
   const cookieStore = await cookies()
-  console.log(cookieStore.get('session'))
   cookieStore.set('session', session, {
     httpOnly: true,
     secure: true,
@@ -66,4 +64,15 @@ export async function updateSession() {
 export async function deleteSession() {
   const cookieStore = await cookies()
   cookieStore.delete('session')
+}
+
+
+export async function readSession() {
+  const session = (await cookies()).get('session')?.value
+  if (!session) return null
+
+  const payload = await decrypt(session)
+  if (!payload) return null
+ 
+  return payload?.id ?? null
 }

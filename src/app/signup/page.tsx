@@ -4,25 +4,38 @@ import { useFormStatus } from 'react-dom'
 import { useActionState } from 'react'
 import { signup } from '../../actions/auth'
 
-export default function Signup() {
-  const [state, action] = useActionState(signup, undefined)
+export default function Login() {
+  const [signupState, signupAction] = useActionState(signup, undefined)
 
   return <>
-    <form action={action}>
-      <div>
+    <form action={signupAction} className='p-4 rounded shadow-md my-20 container max-w-md mx-auto' style={{ backgroundColor: 'rgb(242,235,217)' }}>
+      <div className='flex justify-between items-center'>
         <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="Email" />
+        <input className='rounded p-2 w-72 border border-solid border-black hover:border-white' id="email" name="email" type="email" placeholder="Email" />
       </div>
-      {state?.errors?.email && <p>{state.errors.email}</p>}
-      <div>
+      {signupState?.errors?.email && <p>{signupState.errors.email}</p>}
+      <div className='my-4 flex justify-between items-center'>
         <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" />
+        <input className='rounded p-2 w-72 border border-solid border-black hover:border-white' id="password" name="password" type="password" />
       </div>
-      {state?.errors?.password && (
+      {signupState?.errors?.password && (
         <div>
           <p>Password must:</p>
           <ul>
-            {state.errors.password.map((error) => (
+            {signupState.errors.password.map((error) => (
+              <li key={error}>- {error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div className='my-4 flex justify-between'>
+        <label htmlFor="repeatPassword">Password again</label>
+        <input className='rounded p-2 w-72 border border-solid border-black hover:border-white' id="repeatPassword" name="repeatPassword" type="password" />
+      </div>
+      {signupState?.errors?.repeatPassword && (
+        <div>
+          <ul>
+            {signupState.errors.repeatPassword.map((error) => (
               <li key={error}>- {error}</li>
             ))}
           </ul>
@@ -37,8 +50,8 @@ function SubmitButton() {
   const { pending } = useFormStatus()
  
   return (
-    <button disabled={pending} type="submit">
-      Sign Up
+    <button className='w-full mx-1 bg-white/25 hover:bg-white/75 p-2 rounded shadow-md' disabled={pending} type="submit">
+      Sign up
     </button>
   )
 }
