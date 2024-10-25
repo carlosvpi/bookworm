@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import { logout, gotoSignup, gotoLogin } from '../actions/auth'
+import { Button } from './button'
 
 export function Header({ userName }: { userName: string | null }) {
+  console.log('userName ', userName)
   return <section className='flex justify-between items-center shadow-md pr-4' style={{ backgroundColor: 'rgb(242,235,217)' }}>
     <section className='flex justify-start items-center'>
       <Image alt='logo' src='/logo.jpg' width='100' height='100'></Image>
@@ -12,20 +14,12 @@ export function Header({ userName }: { userName: string | null }) {
       {
         userName ?
           <div className='flex items-center'>
-            <button className='mx-1 bg-white/25 hover:bg-white/75 p-2 rounded shadow-md'>
-              <span>{userName}</span>
-            </button>
-            <button className='mx-1 bg-white/25 hover:bg-white/75 p-2 rounded shadow-md' onClick={ logout }>
-              <span>Log out</span>
-            </button>
+            <Button bg='white'>{userName}</Button>
+            <Button bg='white' onClick={logout}>Log out</Button>
           </div>
           : <div className='flex items-center'>
-            <button className='mx-1 bg-white/25 hover:bg-white/75 p-2 rounded shadow-md' onClick={ gotoSignup }>
-              <span>Sign up</span>
-            </button>
-            <button className='mx-1 bg-white/25 hover:bg-white/75 p-2 rounded shadow-md' onClick={ gotoLogin }>
-              <span>Log in</span>
-            </button>
+            <Button bg='white' onClick={gotoSignup}>Sign up</Button>
+            <Button bg='white' onClick={gotoLogin}>Log in</Button>
           </div>
       }
     </section>

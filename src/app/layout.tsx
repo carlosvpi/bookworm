@@ -14,6 +14,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const userName = await getCurrentUserName()
+  console.log('layout, ', userName)
   return (
     <html lang="en">
       <body

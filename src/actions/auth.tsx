@@ -1,13 +1,11 @@
 "use server";
 
 import { redirect } from 'next/navigation'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../lib/db'
 // @ts-expect-error: bcrypt doesn't have types, but it is correctly loaded
 import bcrypt from 'bcrypt'
 import { SignupFormSchema, SignupFormState, LoginFormSchema, LoginFormState } from '../lib/definitions'
 import { createSession, deleteSession, readSession } from '../lib/session'
-
-const prisma = new PrismaClient()
 
 export async function signup(state: SignupFormState, formData: FormData) {
 
@@ -101,28 +99,20 @@ export async function login(state: LoginFormState, formData: FormData) {
 
 export async function logout() {
   deleteSession()
+  console.log('logout')
   redirect('/login')
 }
 
 export async function getCurrentUserName() {
   const id = +(await readSession() ?? 0)
+
   if (!id) return null
+  console.log('getting user name, ', id)
 
   const user = await prisma.user.findUnique({
     where: { id }
   })
   return user?.name ?? null
-}
-
-export async function getUserFriends(userId: number) {
-  return await prisma.user.findFirst({
-    where: {
-      id: +userId
-    },
-    include: {
-      friends: true
-    }
-  })
 }
 
 export async function gotoSignup() {
