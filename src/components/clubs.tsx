@@ -6,34 +6,68 @@ import { Button } from '../components/button'
 
 export function Clubs({
   currentUserId,
-  friends
+  creatorClubs,
+  adminClubs,
+  memberClubs,
 }: {
   currentUserId: number,
-  friends: { id: number, name: string}[]
+  creatorClubs: { id: number, name: string}[],
+  adminClubs: { id: number, name: string}[],
+  memberClubs: { id: number, name: string}[]
 }) {
-  const [friendIds, setFriendIds] = useState<number[]>(friends.map(({ id }) => id));
+  const [clubIds, setClubIds] = useState<number[]>([
+    ...creatorClubs.map(({ id }) => id),
+    ...adminClubs.map(({ id }) => id),
+    ...memberClubs.map(({ id }) => id)
+  ]);
   
-  const removeFriend = async (userId: number, friendId: number) => {
-    await fetch('/api/friends/removeFriend', {
+  const removeClub = async (userId: number, clubId: number) => {
+    await fetch('/api/clubs/removeClub', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, friendId }),
+      body: JSON.stringify({ userId, clubId }),
     });
-    setFriendIds(friendIds.filter(id => id !== friendId));
+    setClubIds(clubIds.filter(id => id !== clubId));
   };
-  if (friendIds.length === 0) {
-    return <p>You are not connected to any booklover yet</p>
+  if (clubIds.length === 0) {
+    return <p>You are not member of any book club yet</p>
   }
 
   return <ul>
-  {friendIds.map(friendId => {
-    const friend = friends.find(({ id }) => id === friendId)
-    if (!friend) return null
-    const name = friend.name
-    return <li key={friendId}>
-      <Link href={`users/{friend.id}`}>{name ?? 'No name'}</Link>
-      <Button bg='gray' onClick={() => removeFriend(currentUserId, friendId)}>Unfriend</Button>
-    </li>
-  })}
-</ul>
+    {creatorClubs.length > 0 && <li>
+      <h5>Clubs you created</h5>
+      <ul>
+        {creatorClubs.map(({ id, name }) => {
+          if (!clubIds.includes(id)) return null
+          return <li key={`creator-${id}`}>
+            <Link href={`users/{clubId}`}>{name ?? 'No name'}</Link>
+          </li>
+        })}
+      </ul>
+    </li>}
+    {adminClubs.length > 0 && <li>
+      <h5>Clubs you admin</h5>
+      <ul>
+        {adminClubs.map(({ id, name }) => {
+          if (!clubIds.includes(id)) return null
+          return <li key={`creator-${id}`}>
+            <Link href={`users/{clubId}`}>{name ?? 'No name'}</Link>
+            <Button bg='gray' onClick={() => removeClub(currentUserId, id)}>Leave</Button>
+          </li>
+        })}
+      </ul>
+    </li>}
+    {adminClubs.length > 0 && <li>
+      <h5>Your other clubs</h5>
+      <ul>
+        {memberClubs.map(({ id, name }) => {
+          if (!clubIds.includes(id)) return null
+          return <li key={`creator-${id}`}>
+            <Link href={`users/{clubId}`}>{name ?? 'No name'}</Link>
+            <Button bg='gray' onClick={() => removeClub(currentUserId, id)}>Leave</Button>
+          </li>
+        })}
+      </ul>
+    </li>}
+  </ul>
 }
