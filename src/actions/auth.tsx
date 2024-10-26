@@ -98,8 +98,7 @@ export async function login(state: LoginFormState, formData: FormData) {
 }
 
 export async function logout() {
-  deleteSession()
-  console.log('logout')
+  await deleteSession()
   redirect('/login')
 }
 
@@ -107,7 +106,6 @@ export async function getCurrentUserName() {
   const id = +(await readSession() ?? 0)
 
   if (!id) return null
-  console.log('getting user name, ', id)
 
   const user = await prisma.user.findUnique({
     where: { id }
