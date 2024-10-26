@@ -14,15 +14,10 @@ export default async function ClubLayout({
   params: { clubId: string }
 }>) {
   const { clubId } = await params;
-  return (
-    <html lang="en">
-      <body
-        className={`antialiased`}
-      >
-        <h1>Club {`${clubId}`}</h1>
-        <hr></hr>
-        {children}
-      </body>
-    </html>
+  return (<>
+    <h1>Club {`${clubId}`}</h1>
+    <hr></hr>
+    {children}
+    </>
   );
 }

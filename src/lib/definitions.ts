@@ -23,7 +23,6 @@ export type LoginFormState =
     }
   | undefined
 
-   
 export const SignupFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
   password: z
@@ -56,3 +55,10 @@ export type SessionPayload = {
   id: string
   expiresAt: Date
 }
+
+export const CreateClubFormSchema = z.object({
+  name: z
+    .string()
+    .min(4, { message: 'Be at least 4 characters long' })
+    .trim()
+})
