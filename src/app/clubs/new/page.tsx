@@ -2,7 +2,7 @@
 
 import { useFormStatus } from 'react-dom'
 import { useActionState } from 'react'
-import { createClub } from '../../../actions/createClub'
+import { createClub } from '../../../actions/club'
 import { Button } from '../../../components/button'
 
 export default function NewClub() {

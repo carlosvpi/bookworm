@@ -40,7 +40,7 @@ export function Clubs({
         {creatorClubs.map(({ id, name }) => {
           if (!clubIds.includes(id)) return null
           return <li key={`creator-${id}`}>
-            <Link href={`users/{clubId}`}>{name ?? 'No name'}</Link>
+            <Link href={`/clubs/${id}`}>{name ?? 'No name'}</Link>
           </li>
         })}
       </ul>
@@ -51,7 +51,7 @@ export function Clubs({
         {adminClubs.map(({ id, name }) => {
           if (!clubIds.includes(id)) return null
           return <li key={`creator-${id}`}>
-            <Link href={`users/{clubId}`}>{name ?? 'No name'}</Link>
+            <Link href={`/clubs/${id}`}>{name ?? 'No name'}</Link>
             <Button bg='gray' onClick={() => removeClub(currentUserId, id)}>Leave</Button>
           </li>
         })}
@@ -63,7 +63,7 @@ export function Clubs({
         {memberClubs.map(({ id, name }) => {
           if (!clubIds.includes(id)) return null
           return <li key={`creator-${id}`}>
-            <Link href={`users/{clubId}`}>{name ?? 'No name'}</Link>
+            <Link href={`/clubs/${id}`}>{name ?? 'No name'}</Link>
             <Button bg='gray' onClick={() => removeClub(currentUserId, id)}>Leave</Button>
           </li>
         })}

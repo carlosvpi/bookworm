@@ -120,3 +120,10 @@ export async function gotoSignup() {
 export async function gotoLogin() {
   redirect('/login')
 }
+
+export async function gotoCurrentUser() {
+  const id = +(await readSession() ?? 0)
+
+  if (!id) return null
+  redirect(`/users/${id}`)
+}

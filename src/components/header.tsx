@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { logout, gotoSignup, gotoLogin } from '../actions/auth'
+import { logout, gotoSignup, gotoLogin, gotoCurrentUser } from '../actions/auth'
 import { Button } from './button'
 
 export function Header({ userName }: { userName: string | null }) {
@@ -13,7 +13,7 @@ export function Header({ userName }: { userName: string | null }) {
       {
         userName ?
           <div className='flex items-center'>
-            <Button>{userName}</Button>
+            <Button onClick={gotoCurrentUser}>{userName}</Button>
             <Button onClick={logout}>Log out</Button>
           </div>
           : <div className='flex items-center'>
