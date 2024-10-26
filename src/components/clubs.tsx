@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '../components/button'
 
-export function Friends({
+export function Clubs({
   currentUserId,
   friends
 }: {
