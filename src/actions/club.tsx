@@ -43,7 +43,7 @@ export async function createClub(state: any, formData: FormData) {
 
   const userClub = await prisma.userClub.create({
     data: {
-      usserRole: 'Creator',
+      userRole: 'Creator',
       clubId: club.id,
       userId: id
     }

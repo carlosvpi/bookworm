@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation'
 import { getUser } from '../../../lib/db'
 import { Friends } from '../../../components/friends'
 import { Button } from '../../../components/button'

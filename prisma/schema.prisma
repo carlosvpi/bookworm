@@ -39,7 +39,7 @@ model Club {
 }
 
 model UserClub {
-  usserRole UserRole
+  userRole  UserRole  @default(Member)
   user      User     @relation(fields: [userId], references: [id])
   club      Club     @relation(fields: [clubId], references: [id])
 

@@ -24,9 +24,9 @@ export async function getUser(userId: number): Promise<User | null> {
     email: dbUser.email,
     friends: dbUser.friends.map(({ id, name }) => ({ id: id, name })),
     clubs: {
-      creator: dbUser.userClubs.filter(({ usserRole }) => usserRole === 'Creator').map(({ club }) => club),
-      admin: dbUser.userClubs.filter(({ usserRole }) => usserRole === 'Admin').map(({ club }) => club),
-      member: dbUser.userClubs.filter(({ usserRole }) => usserRole === 'Member').map(({ club }) => club)
+      creator: dbUser.userClubs.filter(({ userRole }) => userRole === 'Creator').map(({ club }) => club),
+      admin: dbUser.userClubs.filter(({ userRole }) => userRole === 'Admin').map(({ club }) => club),
+      member: dbUser.userClubs.filter(({ userRole }) => userRole === 'Member').map(({ club }) => club)
     }
   }
 }
