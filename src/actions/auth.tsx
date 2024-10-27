@@ -8,7 +8,6 @@ import { SignupFormSchema, SignupFormState, LoginFormSchema, LoginFormState } fr
 import { createSession, deleteSession, readSession } from '../lib/session'
 
 export async function signup(state: SignupFormState, formData: FormData) {
-
   const validatedFields = SignupFormSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),

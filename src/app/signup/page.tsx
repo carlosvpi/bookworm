@@ -5,7 +5,7 @@ import { useActionState } from 'react'
 import { signup } from '../../actions/auth'
 import { Button } from '../../components/button'
 
-export default function Login() {
+export default function Signup() {
   const [signupState, signupAction] = useActionState(signup, undefined)
 
   return <>

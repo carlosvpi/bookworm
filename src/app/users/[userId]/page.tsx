@@ -13,7 +13,6 @@ export default async function User({ params }: { params: { userId: string} }) {
   return (
     <>
       <h3>User {currentUser?.name ?? 'no name'} ({`${userId}`})</h3>
-      <h5>Friends</h5>
       <Friends
         currentUserId={currentUser.id}
         friends={currentUser.friends}
