@@ -16,9 +16,7 @@ export default async function RootLayout({
   const userName = await getCurrentUserName()
   return (
     <html lang="en">
-      <body
-        className={`antialiased`}
-      >
+      <body className='antialiased'>
         <Header userName={userName}></Header>
         {children}
       </body>
