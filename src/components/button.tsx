@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from "react";
+import { ReactNode } from 'react';
 
 const bgHash = {
   white: 'bg-white/25 hover:bg-white/75',
@@ -11,14 +11,14 @@ export function Button ({
   onClick,
   tw = '',
   disabled = false,
-  type
+  type = 'button'
 }: {
   children: ReactNode,
   bg?: 'white' | 'gray',
   onClick?: React.MouseEventHandler,
   tw?: string,
   disabled?: boolean
-  type?: "submit" | "reset" | "button" | undefined
+  type?: 'submit' | 'reset' | 'button' | undefined
 }) {
   
   return <button

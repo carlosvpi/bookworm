@@ -1,25 +1,21 @@
 import Image from 'next/image'
-import { logout, gotoSignup, gotoLogin, gotoCurrentUser } from '../actions/auth'
-import { Button } from './button'
+import Link from 'next/link'
+import { checkLoggedIn } from '../actions/auth'
+import { LogInHeader } from './logInHeader';
+import { LogOutHeader } from './logOutHeader';
 
-export function Header({ userName }: { userName: string | null }) {
+export async function Header() {
+  const isLoggedIn = await checkLoggedIn()
+
   return <section className='flex justify-between items-center shadow-md pr-4' style={{ backgroundColor: 'rgb(242,235,217)' }}>
     <section className='flex justify-start items-center'>
-      <Image alt='logo' src='/logo.jpg' width='100' height='100'></Image>
+      <Link href='/'><Image alt='logo' src='/logo-256.jpg' width='100' height='100'></Image></Link>
       <span>A</span>
       <span>B</span>
     </section>
     <section className='flex justify-end'>
       {
-        userName ?
-          <div className='flex items-center'>
-            <Button onClick={gotoCurrentUser}>{userName}</Button>
-            <Button onClick={logout}>Log out</Button>
-          </div>
-          : <div className='flex items-center'>
-            <Button onClick={gotoSignup}>Sign up</Button>
-            <Button onClick={gotoLogin}>Log in</Button>
-          </div>
+        isLoggedIn ? <LogInHeader></LogInHeader> : <LogOutHeader></LogOutHeader>
       }
     </section>
   </section>

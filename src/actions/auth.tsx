@@ -54,7 +54,7 @@ export async function signup(state: SignupFormState, formData: FormData) {
 
   await createSession(`${user.id}`)
 
-  redirect(`/users/${user.id}`)
+  redirect(`/`)
 }
 
 export async function login(state: LoginFormState, formData: FormData) {
@@ -93,12 +93,17 @@ export async function login(state: LoginFormState, formData: FormData) {
 
   await createSession(`${user.id}`)
 
-  redirect(`/users/${user.id}`)
+  redirect(`/`)
 }
 
 export async function logout() {
   await deleteSession()
   redirect('/login')
+}
+
+export async function checkLoggedIn() {
+  const id = +(await readSession() ?? 0)
+  return !!id
 }
 
 export async function getCurrentUserName() {

@@ -9,6 +9,25 @@ export async function gotoNewClub() {
   redirect('/clubs/new')
 }
 
+export async function getFeaturedClubs() {
+  return await prisma.club.findMany({
+    take: 10,
+    include: {
+      userClubs: true,
+      assignments: {
+        include: {
+          book: true
+        }
+      }
+    },
+    orderBy: {
+      userClubs: {
+        _count: 'asc'
+      }
+    }
+  })
+}
+
 export async function createClub(state: any, formData: FormData) {
   const validatedFields = CreateClubFormSchema.safeParse({
     name: formData.get('name')
