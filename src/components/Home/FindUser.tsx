@@ -7,7 +7,6 @@ import { User } from '@prisma/client';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
@@ -16,6 +15,35 @@ import PersonAddAlt1 from '@mui/icons-material/PersonAddAlt1';
 import PersonRemoveAlt1 from '@mui/icons-material/PersonRemoveAlt1';
 import Person from '@mui/icons-material/Person';
 import Link from 'next/link';
+
+function FriendRow({
+  user,
+  currentUserId,
+  befriend,
+  unfriend
+}: {
+  user: User,
+  currentUserId: number,
+  befriend: (_0: number, _1: number) => void,
+  unfriend: (_0: number, _1: number) => void,
+}) {
+  const isFriend = ((user as unknown) as {friends:User[]}).friends.some(friend => friend.id === currentUserId)
+  return <>
+    <TableCell>
+      <Box>
+        <Typography variant='h5'><Link href={`users/${user.id}`}>{user.name}</Link></Typography>
+        <Typography variant='body2'>{`${user.createdAt}`}</Typography>
+      </Box>
+    </TableCell>
+    <TableCell>
+      {
+        user.id === currentUserId ? <Button disabled><Person></Person></Button>
+          : isFriend ? <Button color="error" onClick={() => unfriend(currentUserId, user.id)}><PersonRemoveAlt1></PersonRemoveAlt1></Button>
+          : <Button onClick={() => befriend(currentUserId, user.id)}><PersonAddAlt1></PersonAddAlt1></Button>
+      }
+    </TableCell>
+  </>
+}
 
 export function FindUser({ currentUserId }: { currentUserId: number }) {
   const [searchValue, setSearchValue] = useState<string>('')
@@ -64,33 +92,38 @@ export function FindUser({ currentUserId }: { currentUserId: number }) {
         setFriends(foundUsers)
       })
   }, [currentUserId])
-  const usersToShow = [
-    ...friends.sort((a, b) => a.name.localeCompare(b.name)),
-    ...users.filter(({ id }) => !friends.some(friend => friend.id === id)).sort((a, b) => a.name.localeCompare(b.name)),
-  ]
+  const friendsToShow = ([...friends]).sort((a, b) => a.name.localeCompare(b.name))
+  const usersToShow = ([...users]).filter(({ id }) => !friends.some(friend => friend.id === id)).sort((a, b) => a.name.localeCompare(b.name))
   return <Box>
-    <TextField sx={{ width: 1 }} id='userSearchBox' label='User name' variant='outlined' onChange={findUserBoxChange}/>
-    <TableContainer component={Paper}>
+    <TableContainer>
       <Table size="small" aria-label="Users">
         <TableBody>
           {
-            usersToShow.map(user => {
-              const isFriend = ((user as unknown) as {friends:User[]}).friends.some(friend => friend.id === currentUserId)
-
+            friendsToShow.map(user => {
               return <TableRow key={user.id}>
-                <TableCell>
-                  <Box>
-                    <Typography variant='h5'><Link href={`users/${user.id}`}>{user.name}</Link></Typography>
-                    <Typography variant='body2'>{`${user.createdAt}`}</Typography>
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  {
-                    user.id === currentUserId ? <Button disabled><Person></Person></Button>
-                      : isFriend ? <Button color="error" onClick={() => unfriend(currentUserId, user.id)}><PersonRemoveAlt1></PersonRemoveAlt1></Button>
-                      : <Button onClick={() => befriend(currentUserId, user.id)}><PersonAddAlt1></PersonAddAlt1></Button>
-                  }
-                </TableCell>
+                <FriendRow
+                  user={user}
+                  currentUserId={currentUserId}
+                  unfriend={unfriend}
+                  befriend={befriend}
+                ></FriendRow>
+              </TableRow>
+            })
+          }
+          <TableRow>
+            <TableCell colSpan={2}>
+              <TextField sx={{ width: 1 }} id='userSearchBox' label='User name' variant='outlined' onChange={findUserBoxChange}/>
+            </TableCell>
+          </TableRow>
+          {
+            usersToShow.map(user => {
+              return <TableRow key={user.id}>
+                <FriendRow
+                  user={user}
+                  currentUserId={currentUserId}
+                  unfriend={unfriend}
+                  befriend={befriend}
+                ></FriendRow>
               </TableRow>
             })
           }

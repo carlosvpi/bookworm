@@ -3,7 +3,7 @@
 import { useFormStatus } from 'react-dom'
 import { useActionState } from 'react'
 import { signup } from '../../actions/auth'
-import { Button } from '../../components/button'
+import Button from '@mui/material/Button'
 
 export default function Signup() {
   const [signupState, signupAction] = useActionState(signup, undefined)
@@ -50,7 +50,5 @@ export default function Signup() {
 function SubmitButton() {
   const { pending } = useFormStatus()
  
-  return (
-    <Button type="submit" tw='w-full' disabled={pending}>Sign up</Button>
-  )
+  return <Button variant='contained' sx={{ width: '100%' }} type="submit" disabled={pending}>Sign up</Button>
 }

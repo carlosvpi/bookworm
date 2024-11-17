@@ -1,9 +1,21 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 
-export const prisma = new PrismaClient()
+const prismaClientSingleton = () => {
+  return new PrismaClient();
+};
 
-export async function getUser(userId: number): Promise<User | null> {
-  const dbUser = await prisma.user.findFirst({
+declare const globalThis: {
+  prismaGlobal: ReturnType<typeof prismaClientSingleton>;
+} & typeof global;
+
+export const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+
+if (process.env.NODE_ENV !== 'production') {
+  globalThis.prismaGlobal = prisma;
+}
+
+export async function getUser(userId: number) {
+  return await prisma.user.findFirst({
     where: {
       id: +userId
     },
@@ -16,19 +28,6 @@ export async function getUser(userId: number): Promise<User | null> {
       }
     }
   })
-  if (!dbUser) return null
-
-  return {
-    id: dbUser.id,
-    name: dbUser.name,
-    email: dbUser.email,
-    friends: dbUser.friends.map(({ id, name }) => ({ id: id, name })),
-    clubs: {
-      creator: dbUser.userClubs.filter(({ userRole }) => userRole === 'Creator').map(({ club }) => club),
-      admin: dbUser.userClubs.filter(({ userRole }) => userRole === 'Admin').map(({ club }) => club),
-      member: dbUser.userClubs.filter(({ userRole }) => userRole === 'Member').map(({ club }) => club)
-    }
-  }
 }
 
 export type User = {

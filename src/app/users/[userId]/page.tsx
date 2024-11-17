@@ -1,24 +1,39 @@
+import { checkLoggedIn, getCurrentUserId } from '@/actions/auth';
 import { getUser } from '../../../lib/db'
-import { Button } from '../../../components/button'
-import { Clubs } from '../../../components/clubs'
-import { gotoNewClub } from '../../../actions/club'
+import '@fontsource/roboto/300.css';
+import Grid from '@mui/material/Grid2'
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import { UserToUserMessages } from '../../../components/User/UserToUserMessages';
+import { User } from '@prisma/client';
 
-export default async function User({ params }: { params: { userId: string} }) {
+function UserProfile({ name }: { name: string }){
+  return <>
+    <p>{name}</p>
+  </>
+}
+
+export default async function UserPage({ params }: { params: { userId: string} }) {
+  const isLoggedIn = await checkLoggedIn()
+  if (!isLoggedIn) return <p>You should not be here</p>
+
+  const currentUserId = await getCurrentUserId()
   const { userId } = await params;
-  const currentUser = await getUser(+userId)
+  const user = await getUser(+userId)
 
-  if (!currentUser) return <p>You should not be here</p>
+  if (!user) return <p>You should not be here</p>
 
-  return (
-    <>
-      <h3>User {currentUser?.name ?? 'no name'} ({`${userId}`})</h3>
-      <Clubs
-        currentUserId={currentUser.id}
-        creatorClubs={currentUser.clubs.creator}
-        adminClubs={currentUser.clubs.admin}
-        memberClubs={currentUser.clubs.member}
-      ></Clubs>
-      <Button onClick={gotoNewClub}>Create a club</Button>
-    </>
-  );
+  return <Grid container direction='column'>
+    {
+      user.id === currentUserId && <>
+        <Grid>
+          <UserProfile name={user.name}></UserProfile>
+        </Grid>
+        <Divider orientation='horizontal' variant='middle' flexItem />
+      </>
+    }
+    <Grid sx={{ flex: 1 }}>
+      <UserToUserMessages currentUserId={currentUserId} user={user}></UserToUserMessages>
+    </Grid>
+  </Grid>
 }
