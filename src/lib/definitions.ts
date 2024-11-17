@@ -60,6 +60,10 @@ export const CreateClubFormSchema = z.object({
   name: z
     .string()
     .min(4, { message: 'Be at least 4 characters long' })
+    .trim(),
+  description: z
+    .string()
+    .min(4, { message: 'Be at least 4 characters long' })
     .trim()
 })
 

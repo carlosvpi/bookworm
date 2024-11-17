@@ -4,10 +4,9 @@ import { getFeaturedClubs } from '../actions/club'
 
 export async function FeaturedClubs () {
   const clubs = await getFeaturedClubs()
-  console.log(clubs[0].assignments)
-  return <Grid direction='column' height='400'>
+  return <Grid container spacing={4} direction='column' maxHeight={400}>
     {
-      clubs.map(club => <ClubCard key={club.id} {...club} />)
+      clubs.map(club => <Grid key={club.id}><ClubCard {...club} /></Grid>)
     }
   </Grid>
 }

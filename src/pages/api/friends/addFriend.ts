@@ -22,6 +22,9 @@ export default async function handler(
     data: {
       friends: {
         connect: { id: friendId }
+      },
+      friendOf: {
+        connect: { id: friendId }
       }
     }
   })

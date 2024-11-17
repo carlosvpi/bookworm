@@ -3,9 +3,9 @@ import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid2'
 import Image from 'next/image'
-import { FeaturedClubs } from '../../components/featuredClubs'
+import { FeaturedClubs } from '../featuredClubs'
 
-export async function Landing() {
+export async function LandingPage() {
   return <Container maxWidth='md'>
     <Box sx={{ p: 5 }}>
       <Grid container spacing={10} alignItems='center'>

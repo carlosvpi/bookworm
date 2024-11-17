@@ -3,7 +3,7 @@
 import { useFormStatus } from 'react-dom'
 import { useActionState } from 'react'
 import { login } from '../../actions/auth'
-import { Button } from '../../components/button'
+import Button from '@mui/material/Button'
 
 export default function Login() {
   const [loginState, loginAction] = useActionState(login, undefined)

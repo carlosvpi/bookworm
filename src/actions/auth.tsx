@@ -106,6 +106,10 @@ export async function checkLoggedIn() {
   return !!id
 }
 
+export async function getCurrentUserId() {
+  return +(await readSession() ?? 0)
+}
+
 export async function getCurrentUserName() {
   const id = +(await readSession() ?? 0)
 

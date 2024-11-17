@@ -1,5 +1,4 @@
 import { getUser } from '../../../lib/db'
-import { Friends } from '../../../components/friends'
 import { Button } from '../../../components/button'
 import { Clubs } from '../../../components/clubs'
 import { gotoNewClub } from '../../../actions/club'
@@ -13,10 +12,6 @@ export default async function User({ params }: { params: { userId: string} }) {
   return (
     <>
       <h3>User {currentUser?.name ?? 'no name'} ({`${userId}`})</h3>
-      <Friends
-        currentUserId={currentUser.id}
-        friends={currentUser.friends}
-      ></Friends>
       <Clubs
         currentUserId={currentUser.id}
         creatorClubs={currentUser.clubs.creator}

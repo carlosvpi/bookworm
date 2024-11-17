@@ -9,6 +9,10 @@ export async function gotoNewClub() {
   redirect('/clubs/new')
 }
 
+export async function gotoClub(id: number) {
+  redirect(`/clubs/${id}`)
+}
+
 export async function getFeaturedClubs() {
   return await prisma.club.findMany({
     take: 10,
@@ -30,7 +34,8 @@ export async function getFeaturedClubs() {
 
 export async function createClub(state: any, formData: FormData) {
   const validatedFields = CreateClubFormSchema.safeParse({
-    name: formData.get('name')
+    name: formData.get('name'),
+    description: formData.get('description')
   })
  
   // If any form fields are invalid, return early
@@ -41,12 +46,13 @@ export async function createClub(state: any, formData: FormData) {
     }
   }
   const id = +(await readSession() ?? 0)
-  const { name } = validatedFields.data
+  const { name, description } = validatedFields.data
 
   if (!id) return null
   const club = await prisma.club.create({
     data: {
       name,
+      description,
       board: {
         create: {
           type: 'ClubBoard'
