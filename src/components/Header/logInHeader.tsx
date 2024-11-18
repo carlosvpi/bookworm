@@ -1,7 +1,7 @@
-import { logout, gotoCurrentUser } from '../actions/auth'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
-import { getCurrentUserName } from '../actions/auth'
+import { logout, gotoCurrentUser } from '../../actions/auth'
+import { getCurrentUserName } from '../../actions/auth'
 
 export function LogInHeader() {
   const userName = getCurrentUserName()

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { checkLoggedIn } from '../actions/auth'
+import { checkLoggedIn } from '../../actions/auth'
 import { LogInHeader } from './logInHeader';
 import { LogOutHeader } from './logOutHeader';
 

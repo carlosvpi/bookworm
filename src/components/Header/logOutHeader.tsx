@@ -1,4 +1,4 @@
-import { gotoSignup, gotoLogin } from '../actions/auth'
+import { gotoSignup, gotoLogin } from '../../actions/auth'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
 
